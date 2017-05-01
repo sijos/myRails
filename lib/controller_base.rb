@@ -8,10 +8,11 @@ class ControllerBase
   attr_reader :req, :res, :params
 
   # Setup the controller
-  def initialize(req, res)
+  def initialize(req, res, params = {})
     @already_built_response = false
     @req = req
     @res = res
+    @params = params
   end
 
   # Helper method to alias @already_built_response
@@ -42,6 +43,7 @@ class ControllerBase
   # use ERB and binding to evaluate templates
   # pass the rendered html to render_content
   def render(template_name)
+    #TODO chop off _controller from name in path
     controller_name = self.class.name.underscore
     path = "views/#{controller_name}/#{template_name}.html.erb"
     template = ERB.new(File.read(path))
